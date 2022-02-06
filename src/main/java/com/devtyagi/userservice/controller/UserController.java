@@ -11,6 +11,7 @@ import com.devtyagi.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,7 +22,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping(Endpoints.UserAPI.CREATE_USER)
-    public User createUser(@RequestBody CreateUserRequestDTO createUserRequest) {
+    public User createUser(@RequestBody @Valid CreateUserRequestDTO createUserRequest) {
         return userService.createUser(createUserRequest);
     }
 
