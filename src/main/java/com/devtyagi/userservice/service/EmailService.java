@@ -29,11 +29,11 @@ public class EmailService {
         this.amazonSimpleEmailService = amazonSimpleEmailService;
     }
 
-    public void sendEmailToUser(String email,  String fullName,String url) {
+    public void sendEmailToUser(String email, String fullName, String inviteCode) {
         String subject = "Welcome on board, your account has been created!";
         String emailContent = "<h2>Welcome onboard!</h2>\n" +
                 "<p>Click on this link to create a password and activate your account.</p>\n" +
-                "<p>"+ applicationUrl + "/activate?inviteCode=" + url + "&fullName=" + URLEncoder.encode(fullName, StandardCharsets.UTF_8) + "</p>";
+                "<p>"+ applicationUrl + "/activate?inviteCode=" + inviteCode + "&fullName=" + URLEncoder.encode(fullName, StandardCharsets.UTF_8) + "</p>";
         try {
             SendEmailRequest request = new SendEmailRequest()
                     .withDestination(
