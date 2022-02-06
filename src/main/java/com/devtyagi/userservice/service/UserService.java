@@ -79,6 +79,7 @@ public class UserService {
                 .accessToken(accessToken)
                 .username(userDetails.getUserUsername())
                 .emailAddress(userDetails.getUsername())
+                .role(user.getTheRole())
                 .build();
     }
 

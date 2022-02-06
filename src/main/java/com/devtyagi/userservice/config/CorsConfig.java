@@ -1,5 +1,6 @@
 package com.devtyagi.userservice.config;
 
+import com.devtyagi.userservice.constants.Endpoints;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -13,7 +14,9 @@ public class CorsConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("*");
+                registry.addMapping("/**")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+                        .allowedOrigins("*");
             }
         };
     }
