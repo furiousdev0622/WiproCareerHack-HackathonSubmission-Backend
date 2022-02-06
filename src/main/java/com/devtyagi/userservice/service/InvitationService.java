@@ -32,7 +32,7 @@ public class InvitationService {
                 .build();
 
         invitationRepository.save(invite);
-        emailService.sendEmailToUser(user.getEmailAddress(), invite.getInvitationId());
+        emailService.sendEmailToUser(user.getEmailAddress(), user.getFullName(), invite.getInvitationId());
     }
 
     public Invitation getInvitationById(String id) {

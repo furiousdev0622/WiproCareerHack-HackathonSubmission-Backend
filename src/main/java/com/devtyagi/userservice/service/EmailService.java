@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 @Service
 @Slf4j
 public class EmailService {
@@ -26,11 +29,11 @@ public class EmailService {
         this.amazonSimpleEmailService = amazonSimpleEmailService;
     }
 
-    public void sendEmailToUser(String email, String url) {
+    public void sendEmailToUser(String email,  String fullName,String url) {
         String subject = "Welcome on board, your account has been created!";
         String emailContent = "<h2>Welcome onboard!</h2>\n" +
                 "<p>Click on this link to create a password and activate your account.</p>\n" +
-                "<p>"+ applicationUrl + "/activate?inviteCode=" + url +"</p>";
+                "<p>"+ applicationUrl + "/activate?inviteCode=" + url + "&fullName=" + URLEncoder.encode(fullName, StandardCharsets.UTF_8) + "</p>";
         try {
             SendEmailRequest request = new SendEmailRequest()
                     .withDestination(

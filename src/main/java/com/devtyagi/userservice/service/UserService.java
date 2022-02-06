@@ -1,12 +1,10 @@
 package com.devtyagi.userservice.service;
 
-import com.devtyagi.userservice.dao.Invitation;
 import com.devtyagi.userservice.dao.User;
 import com.devtyagi.userservice.dto.request.ActivateUserRequestDTO;
 import com.devtyagi.userservice.dto.request.CreateUserRequestDTO;
 import com.devtyagi.userservice.dto.request.LoginUserRequestDTO;
 import com.devtyagi.userservice.dto.response.BaseResponseDTO;
-import com.devtyagi.userservice.dto.response.CreateUserResponseDTO;
 import com.devtyagi.userservice.dto.response.LoginUserResponseDTO;
 import com.devtyagi.userservice.enums.UserStatus;
 import com.devtyagi.userservice.exception.InactiveUserException;
@@ -43,7 +41,7 @@ public class UserService {
 
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public CreateUserResponseDTO createUser(CreateUserRequestDTO createUserRequest) {
+    public User createUser(CreateUserRequestDTO createUserRequest) {
         val role = roleService.getRoleByRoleName(createUserRequest.getRole());
 
         val user = User.builder()
@@ -58,11 +56,7 @@ public class UserService {
 
         invitationService.sendInvitationToUser(savedUser);
 
-        return CreateUserResponseDTO.builder()
-                .userId(savedUser.getUserId())
-                .emailAddress(savedUser.getEmailAddress())
-                .username(savedUser.getUsername())
-                .build();
+        return savedUser;
     }
 
     public LoginUserResponseDTO loginUser(LoginUserRequestDTO loginRequest) {
@@ -88,7 +82,7 @@ public class UserService {
                 .build();
     }
 
-    public BaseResponseDTO activateAccount(ActivateUserRequestDTO activateRequest) {
+    public LoginUserResponseDTO activateAccount(ActivateUserRequestDTO activateRequest) {
         val invitation = invitationService.getInvitationById(activateRequest.getInvitationCode());
         if(invitation.getUsed()) {
             throw new InvalidInvitationException();
@@ -98,9 +92,12 @@ public class UserService {
         user.setStatus(UserStatus.ACTIVE);
         invitationService.setInviteUsed(invitation);
         userRepository.save(user);
-        return BaseResponseDTO.builder()
-                .message("User activated successfully!")
-                .build();
+        return loginUser(
+                LoginUserRequestDTO.builder()
+                .emailAddress(user.getEmailAddress())
+                .password(activateRequest.getPassword())
+                .build()
+        );
     }
 
     public BaseResponseDTO deleteUser(String userId) {

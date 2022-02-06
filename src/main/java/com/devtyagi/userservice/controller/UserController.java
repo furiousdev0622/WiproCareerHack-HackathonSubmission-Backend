@@ -6,7 +6,6 @@ import com.devtyagi.userservice.dto.request.ActivateUserRequestDTO;
 import com.devtyagi.userservice.dto.request.CreateUserRequestDTO;
 import com.devtyagi.userservice.dto.request.LoginUserRequestDTO;
 import com.devtyagi.userservice.dto.response.BaseResponseDTO;
-import com.devtyagi.userservice.dto.response.CreateUserResponseDTO;
 import com.devtyagi.userservice.dto.response.LoginUserResponseDTO;
 import com.devtyagi.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping(Endpoints.UserAPI.CREATE_USER)
-    public CreateUserResponseDTO createUser(@RequestBody CreateUserRequestDTO createUserRequest) {
+    public User createUser(@RequestBody CreateUserRequestDTO createUserRequest) {
         return userService.createUser(createUserRequest);
     }
 
@@ -32,7 +31,7 @@ public class UserController {
     }
 
     @PutMapping(Endpoints.UserAPI.ACTIVATE_USER)
-    public BaseResponseDTO activateUser(@RequestBody ActivateUserRequestDTO activateUserRequestDTO) {
+    public LoginUserResponseDTO activateUser(@RequestBody ActivateUserRequestDTO activateUserRequestDTO) {
         return userService.activateAccount(activateUserRequestDTO);
     }
 
