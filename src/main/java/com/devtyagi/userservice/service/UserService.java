@@ -10,6 +10,7 @@ import com.devtyagi.userservice.enums.UserStatus;
 import com.devtyagi.userservice.exception.InactiveUserException;
 import com.devtyagi.userservice.exception.InvalidCredentialsException;
 import com.devtyagi.userservice.exception.InvalidInvitationException;
+import com.devtyagi.userservice.exception.UserAlreadyExistsException;
 import com.devtyagi.userservice.repository.UserRepository;
 import com.devtyagi.userservice.util.CustomUserDetails;
 import com.devtyagi.userservice.util.JwtUtil;
@@ -42,8 +43,12 @@ public class UserService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     public User createUser(CreateUserRequestDTO createUserRequest) {
+        val userEmail = createUserRequest.getEmailAddress();
+        val userCheckInDB = userRepository.findUserByEmailAddress(userEmail);
+        if(userCheckInDB != null) {
+            throw new UserAlreadyExistsException();
+        }
         val role = roleService.getRoleByRoleName(createUserRequest.getRole());
-
         val user = User.builder()
                 .username(createUserRequest.getUsername())
                 .fullName(createUserRequest.getFullName())
