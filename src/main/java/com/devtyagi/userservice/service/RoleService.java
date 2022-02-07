@@ -13,11 +13,21 @@ public class RoleService {
 
     private final RoleRepository roleRepository;
 
+    /**
+     * This method is used to fetch the Role from database by passing the Role ID.
+     * @param id Role ID
+     * @return Role
+     */
     public Role getRoleById(Integer id) {
         return roleRepository.findById(id)
                 .orElseThrow(InvalidRoleException::new);
     }
 
+    /**
+     * This method is used to fetch the Role from database by passing the Role Name.
+     * @param roleName Role Name
+     * @return Role
+     */
     public Role getRoleByRoleName(String roleName) {
         val role = roleRepository.findByRoleName(roleName);
         if(role == null) throw new InvalidRoleException();

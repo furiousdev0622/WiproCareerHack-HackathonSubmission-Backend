@@ -44,6 +44,14 @@ public class UserService {
 
     private final BCryptPasswordEncoder passwordEncoder;
 
+    /**
+     * This method created a new user account and saves into Database.
+     * All fields required for user creation are passed in CreateUserRequestDTO.
+     * Once the account is saved, it triggers the Send Invite flow.
+     *
+     * @throws UserAlreadyExistsException if a user with given email already exists.
+     * @return The saved user's profile.
+     */
     public User createUser(CreateUserRequestDTO createUserRequest) {
         val userEmail = createUserRequest.getEmailAddress();
         val userCheckInDB = userRepository.findUserByEmailAddress(userEmail);
@@ -66,6 +74,12 @@ public class UserService {
         return savedUser;
     }
 
+    /**
+     * This method tries to log in with the provided credentials and
+     * returns JWT and other details if login is successful.
+     * @param loginRequest A DTO containing Email and Password.
+     * @return A DTO containing JWT along with other user details.
+     */
     public LoginUserResponseDTO loginUser(LoginUserRequestDTO loginRequest) {
         try {
             authenticationManager.authenticate(
@@ -89,6 +103,14 @@ public class UserService {
                 .build();
     }
 
+    /**
+     * This method is used to update the user's profile.
+     * 1. Sets a new Password for the User
+     * 2. Change status from 'PENDING' to 'ACTIVE'.
+     * @throws InvalidInvitationException if the provided InviteCode is invalid.
+     * @param activateRequest A DTO containing the new password and invitation code.
+     * @return A DTO containing JWT along with other user details.
+     */
     public LoginUserResponseDTO activateAccount(ActivateUserRequestDTO activateRequest) {
         val invitation = invitationService.getInvitationById(activateRequest.getInvitationCode());
         if(invitation.getUsed()) {
@@ -107,6 +129,10 @@ public class UserService {
         );
     }
 
+    /**
+     * This method is used to Delete a user's account by ID.
+     * @param userId ID of the user to be deleted.
+     */
     public BaseResponseDTO deleteUser(String userId) {
         invitationService.deleteInvite(userId);
         userRepository.deleteById(userId);
@@ -115,12 +141,29 @@ public class UserService {
                 .build();
     }
 
+    /**
+     * This method fetches all users that exist in the database and returns as a list.
+     * The resultant user list is sorted on the basis of the provided pramaters.
+     * @param sortOn The field on which Sorting has to be applied.
+     * @param order The direction of sorting (Ascending / Descening)
+     * @return A List of Users.
+     */
     public List<User> getAllUsers(String sortOn, String order) {
         val sortField = validateSortOn(sortOn);
         val sortOrder = order.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         return userRepository.findAll(Sort.by(sortOrder, sortField));
     }
 
+    /**
+     * This method is used to validate the name of the field on which
+     * sorting has to be applied.
+     *
+     * If the provided sort field name is invalid, it returns "fullName" so that
+     * the user list will be sorted on basis of Full Name.
+     *
+     * @param sort Name of the field
+     * @return
+     */
     private String validateSortOn(String sort) {
         if(Set.of("fullName", "username", "emailAddress", "status", "role").contains(sort)) {
             return sort;
@@ -128,10 +171,20 @@ public class UserService {
         return "fullName";
     }
 
+    /**
+     * This method saves a user into the database.
+     * @param user User to be saved.
+     * @return Saved User's profile.
+     */
     public User save(User user) {
         return userRepository.save(user);
     }
 
+    /**
+     * This method checks if the user with Admin Email exists.
+     * @param adminEmail The email of admin user.
+     * @return A boolean value indicating if admin user exists.
+     */
     public boolean adminExists(String adminEmail) {
         val user = userRepository.findUserByEmailAddress(adminEmail);
         return user != null;

@@ -29,6 +29,14 @@ public class EmailService {
         this.amazonSimpleEmailService = amazonSimpleEmailService;
     }
 
+    /**
+     * This method is used to send the invitation email to the newly created user.
+     * The email contains a unique account activation link that will redirect the user
+     * to the create password screen.
+     * @param email The Email ID of the newly created user.
+     * @param fullName The full name of the newly created user.
+     * @param inviteCode Unique Invitaion Code that is to be used for account activation.
+     */
     public void sendEmailToUser(String email, String fullName, String inviteCode) {
         String subject = "Welcome on board, your account has been created!";
         String emailContent = "<h2>Welcome onboard!</h2>\n" +
