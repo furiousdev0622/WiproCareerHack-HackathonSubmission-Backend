@@ -72,7 +72,7 @@ SCP (Secure Copy) is used to upload file to the remote server via SSH.
 
 To be executed on Local System: 
 ```
-scp -i ./Users/devtyagi/Desktop/wipro-careerhack-instance.pem.pem ./user-service-0.0.1-SNAPSHOT.jar ec2-user@ec2-15-207-72-44.ap-south-1.compute.amazonaws.com:~
+scp -i ./Users/devtyagi/Desktop/wipro-careerhack-instance.pem ./user-service-0.0.1-SNAPSHOT.jar ec2-user@ec2-15-207-72-44.ap-south-1.compute.amazonaws.com:~
 ```
 
 ### Configure AWS CLI
