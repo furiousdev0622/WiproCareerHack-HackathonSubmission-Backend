@@ -5,7 +5,6 @@ import com.devtyagi.userservice.service.JwtUserDetailsService;
 import com.devtyagi.userservice.util.FilterChainExceptionHandler;
 import com.devtyagi.userservice.util.JwtRequestFilter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -37,6 +36,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(bCryptPasswordEncoder);
     }
 
+    /**
+     * This method configures the HttpSecurity.
+     * Allows specific routes for specific users.
+     * /api/v1/auth/** routes for everyone.
+     * /api/v1/user/all route for any authenticated users.
+     * /api/v1/user/create route for LEVEL2 and LEVEL3 users.
+     * /api/v1/delete/{id} route for LEVEL3 users.
+     * @param http HttpSecurity object from Spring Security.
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
@@ -48,7 +56,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(Endpoints.BASE_URL + "/user/create").hasAnyRole("LEVEL2", "LEVEL3")
                 .antMatchers(Endpoints.BASE_URL + "/user/delete/**").hasRole("LEVEL3");
 
+        /* Add JWT Filter before processing any API request. */
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
+        /* Add Exception Handler to handle the exceptions that occur during filter chain.
+           Handles exception related to JWT */
         http.addFilterBefore(filterChainExceptionHandler, LogoutFilter.class);
     }
 
