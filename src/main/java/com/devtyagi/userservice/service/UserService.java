@@ -67,8 +67,6 @@ public class UserService {
     }
 
     public LoginUserResponseDTO loginUser(LoginUserRequestDTO loginRequest) {
-        val user = userRepository.findUserByEmailAddress(loginRequest.getEmailAddress());
-        if(user.getStatus().equals(UserStatus.PENDING)) throw new InactiveUserException();
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -80,13 +78,14 @@ public class UserService {
             throw new InvalidCredentialsException();
         }
         val userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(loginRequest.getEmailAddress());
+        if(userDetails.getUserStatus().equals(UserStatus.PENDING)) throw new InactiveUserException();
         val accessToken = jwtUtil.generateToken(userDetails);
         return LoginUserResponseDTO.builder()
                 .userId(userDetails.getUserId())
                 .accessToken(accessToken)
                 .username(userDetails.getUserUsername())
                 .emailAddress(userDetails.getUsername())
-                .role(user.getTheRole())
+                .role(userDetails.getRole())
                 .build();
     }
 

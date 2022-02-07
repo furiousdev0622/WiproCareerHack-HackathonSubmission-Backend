@@ -1,6 +1,7 @@
 package com.devtyagi.userservice.util;
 
 import com.devtyagi.userservice.dao.User;
+import com.devtyagi.userservice.enums.UserStatus;
 import lombok.val;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -36,6 +37,14 @@ public class CustomUserDetails implements UserDetails {
 
     public String getName() {
         return user.getFullName();
+    }
+
+    public UserStatus getUserStatus() {
+        return user.getStatus();
+    }
+
+    public String getRole() {
+        return user.getTheRole();
     }
 
     public String getUserId() {

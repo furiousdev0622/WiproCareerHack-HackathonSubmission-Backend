@@ -27,7 +27,7 @@ public class UserController {
     }
 
     @PostMapping(Endpoints.AuthAPI.LOGIN_USER)
-    public LoginUserResponseDTO loginUser(@RequestBody LoginUserRequestDTO loginRequest) {
+    public LoginUserResponseDTO loginUser(@RequestBody @Valid LoginUserRequestDTO loginRequest) {
         return userService.loginUser(loginRequest);
     }
 
