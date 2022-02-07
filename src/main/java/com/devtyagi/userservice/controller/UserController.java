@@ -42,8 +42,11 @@ public class UserController {
     }
 
     @GetMapping(Endpoints.UserAPI.GET_USERS)
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public List<User> getAllUsers(
+            @RequestParam(defaultValue = "fullName") String sort,
+            @RequestParam(defaultValue = "asc") String order
+    ) {
+        return userService.getAllUsers(sort, order);
     }
 
 }

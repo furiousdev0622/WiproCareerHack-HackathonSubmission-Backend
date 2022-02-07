@@ -24,6 +24,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -115,8 +116,17 @@ public class UserService {
                 .build();
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll(Sort.by("fullName"));
+    public List<User> getAllUsers(String sortOn, String order) {
+        val sortField = validateSortOn(sortOn);
+        val sortOrder = order.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        return userRepository.findAll(Sort.by(sortOrder, sortField));
+    }
+
+    private String validateSortOn(String sort) {
+        if(Set.of("fullName", "username", "emailAddress", "status", "role").contains(sort)) {
+            return sort;
+        }
+        return "fullName";
     }
 
     public User save(User user) {
