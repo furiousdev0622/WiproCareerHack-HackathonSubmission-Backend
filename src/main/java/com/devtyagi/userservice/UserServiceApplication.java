@@ -5,6 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+/**
+ * @author Dev Tyagi (https://www.linkedin.com/in/devtyagi/_
+ * @version 1.0
+ */
 @SpringBootApplication
 public class UserServiceApplication {
 
