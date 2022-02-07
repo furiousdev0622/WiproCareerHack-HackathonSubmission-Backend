@@ -93,7 +93,7 @@ The background process ID will be saved in save_pid.txt file.
 
 Filename: run-user-service.sh
 
-```aidl
+```
 #!/bin/sh
 
 nohup java \
