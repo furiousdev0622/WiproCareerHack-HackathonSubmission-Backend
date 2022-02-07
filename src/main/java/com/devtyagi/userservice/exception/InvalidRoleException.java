@@ -2,9 +2,9 @@ package com.devtyagi.userservice.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class InvalidRoleExeption extends BaseException{
+public class InvalidRoleException extends BaseException{
 
-    public InvalidRoleExeption() {
+    public InvalidRoleException() {
         super("Invalid Role", HttpStatus.BAD_REQUEST);
     }
 
