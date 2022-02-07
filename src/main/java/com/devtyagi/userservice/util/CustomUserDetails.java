@@ -10,6 +10,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Custom UserDetails implementation that is used by Spring Security
+ * for Authentication and Authorization.
+ */
 public class CustomUserDetails implements UserDetails {
 
     private User user;

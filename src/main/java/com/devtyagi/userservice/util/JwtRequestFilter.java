@@ -23,6 +23,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
 
+    /**
+     * This method processes the API request headers before the actual controller method.
+     * Used to Extract and Validate the provided JWT token.
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final String authorizationHeader = request.getHeader("Authorization");
@@ -30,11 +34,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String email = null;
         String jwtToken = null;
 
+        // Get the JWT token from request header 'Authorization'.
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             jwtToken = authorizationHeader.substring(7);
             email = jwtUtil.extractUsername(jwtToken);
         }
 
+        // Use the email extracted from JWT token to check if it is a valid user.
+        // If the user's found and is valid, set the authenticated user's info in SecurityContextHolder.
         if(email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             val userDetails = userDetailsService.loadUserByUsername(email);
             if(jwtUtil.validateToken(jwtToken, userDetails)) {
