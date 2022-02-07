@@ -16,6 +16,7 @@ import com.devtyagi.userservice.util.CustomUserDetails;
 import com.devtyagi.userservice.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -115,7 +116,7 @@ public class UserService {
     }
 
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userRepository.findAll(Sort.by("fullName"));
     }
 
     public User save(User user) {
