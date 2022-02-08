@@ -121,7 +121,7 @@ The backend application will now be running on PORT 8080.
 
 ### Install NGINX
 
-The application runs on port 8080 by default. NGINX has been used up to proxy pass all requests on '/api' route port 80 (HTTP) to port 8080 (Spring Boot).
+The application runs on port 8080 by default. NGINX has been set up to proxy pass all requests on '/api' route port 80 (HTTP) to port 8080 (Spring Boot).
 
 ```sudo amazon-linux-extras enable epel```    
 
