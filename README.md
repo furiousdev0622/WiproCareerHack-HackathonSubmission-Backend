@@ -153,4 +153,4 @@ Restart NGINX:
 ### Done!
 
 The backend has been successfully deployed on the EC2 instance by following the above steps, it handles HTTP API requests on PORT 80.    
-HTTPS was not set up since it was out of the Hackathon Scope.
+HTTPS was not set up since it was out of the Hackathon Scope
