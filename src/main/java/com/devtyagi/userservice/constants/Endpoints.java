@@ -23,7 +23,7 @@ public class Endpoints {
     public static class UserAPI {
 
         // Base URL for User APIs
-        public static final String USER_BASE_URL = "/user";
+        public static final String USER_BASE_URL = "/userlogin";
 
         // [POST] Create User Endpoint
         public static final String CREATE_USER = USER_BASE_URL + "/create";
