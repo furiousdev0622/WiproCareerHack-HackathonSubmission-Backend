@@ -26,7 +26,7 @@ public class Endpoints {
         public static final String USER_BASE_URL = "/userlogin";
 
         // [POST] Create User Endpoint
-        public static final String CREATE_USER = USER_BASE_URL + "/create";
+        public static final String CREATE_USER = USER_BASE_URL + "/createlogin";
 
         // [GET] Get all users Endpoint
         public static final String GET_USERS = USER_BASE_URL + "/all";
